@@ -32,9 +32,8 @@ const demoPrompts = [
 
 function App() {
   const dispatch = useDispatch();
-  const { hcps, interactions, chatMessages, loading, chatLoading, error } = useSelector(
-    (state) => state.crm
-  );
+  const { hcps, interactions, chatMessages, loading, chatLoading, error } =
+    useSelector((state) => state.crm);
   const [formData, setFormData] = useState(emptyForm);
   const [chatInput, setChatInput] = useState("");
 
@@ -54,7 +53,7 @@ function App() {
           .map((item) => item.trim())
           .filter(Boolean),
         follow_up_date: formData.follow_up_date || null,
-      })
+      }),
     );
     setFormData(emptyForm);
   };
@@ -77,16 +76,16 @@ function App() {
           <p className="eyebrow">Life Sciences CRM</p>
           <h1>AI-First HCP Interaction Logging</h1>
           <p className="hero-copy">
-            A dual-mode log interaction screen for field representatives with a structured
-            form and a LangGraph-powered conversational copilot.
+            A dual-mode log interaction screen for field representatives with a
+            structured form and a LangGraph-powered conversational copilot.
           </p>
         </div>
-        <div className="hero-card">
+        {/* <div className="hero-card">
           <span>Mandatory stack satisfied</span>
           <strong>React + Redux</strong>
           <strong>FastAPI + LangGraph</strong>
           <strong>Groq-ready with PostgreSQL</strong>
-        </div>
+        </div> */}
       </header>
 
       <main className="grid">
@@ -104,7 +103,9 @@ function App() {
               HCP
               <select
                 value={formData.hcp_id}
-                onChange={(e) => setFormData({ ...formData, hcp_id: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, hcp_id: e.target.value })
+                }
                 required
               >
                 <option value="">Select HCP</option>
@@ -121,7 +122,9 @@ function App() {
               <input
                 type="date"
                 value={formData.interaction_date}
-                onChange={(e) => setFormData({ ...formData, interaction_date: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, interaction_date: e.target.value })
+                }
                 required
               />
             </label>
@@ -130,7 +133,9 @@ function App() {
               Channel
               <select
                 value={formData.channel}
-                onChange={(e) => setFormData({ ...formData, channel: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, channel: e.target.value })
+                }
               >
                 <option>In-person</option>
                 <option>Video call</option>
@@ -144,7 +149,9 @@ function App() {
               Sentiment
               <select
                 value={formData.sentiment}
-                onChange={(e) => setFormData({ ...formData, sentiment: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, sentiment: e.target.value })
+                }
               >
                 <option>positive</option>
                 <option>neutral</option>
@@ -156,7 +163,9 @@ function App() {
               Title
               <input
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 placeholder="Quarterly product detail"
                 required
               />
@@ -166,7 +175,9 @@ function App() {
               Objective
               <input
                 value={formData.objective}
-                onChange={(e) => setFormData({ ...formData, objective: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, objective: e.target.value })
+                }
                 placeholder="Reinforce efficacy data and identify follow-up needs"
                 required
               />
@@ -177,7 +188,9 @@ function App() {
               <textarea
                 rows="4"
                 value={formData.summary}
-                onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, summary: e.target.value })
+                }
                 placeholder="Capture the key discussion points, objections, and outcomes."
                 required
               />
@@ -188,7 +201,10 @@ function App() {
               <input
                 value={formData.products_discussed}
                 onChange={(e) =>
-                  setFormData({ ...formData, products_discussed: e.target.value })
+                  setFormData({
+                    ...formData,
+                    products_discussed: e.target.value,
+                  })
                 }
                 placeholder="CardioX, LipiFlow"
               />
@@ -199,7 +215,9 @@ function App() {
               <input
                 type="date"
                 value={formData.follow_up_date}
-                onChange={(e) => setFormData({ ...formData, follow_up_date: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, follow_up_date: e.target.value })
+                }
               />
             </label>
 
@@ -208,7 +226,9 @@ function App() {
               <textarea
                 rows="3"
                 value={formData.next_action}
-                onChange={(e) => setFormData({ ...formData, next_action: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, next_action: e.target.value })
+                }
                 placeholder="Send evidence summary and schedule a follow-up call."
               />
             </label>
@@ -230,7 +250,12 @@ function App() {
 
           <div className="prompt-row">
             {demoPrompts.map((prompt) => (
-              <button key={prompt} type="button" className="chip" onClick={() => sendMessage(prompt)}>
+              <button
+                key={prompt}
+                type="button"
+                className="chip"
+                onClick={() => sendMessage(prompt)}
+              >
                 {prompt}
               </button>
             ))}
@@ -238,12 +263,20 @@ function App() {
 
           <div className="chat-window">
             {chatMessages.map((message, index) => (
-              <article key={`${message.role}-${index}`} className={`bubble ${message.role}`}>
+              <article
+                key={`${message.role}-${index}`}
+                className={`bubble ${message.role}`}
+              >
                 <span>{message.role === "assistant" ? "Copilot" : "You"}</span>
                 <p>{message.content}</p>
               </article>
             ))}
-            {chatLoading ? <article className="bubble assistant"><span>Copilot</span><p>Working...</p></article> : null}
+            {chatLoading ? (
+              <article className="bubble assistant">
+                <span>Copilot</span>
+                <p>Working...</p>
+              </article>
+            ) : null}
           </div>
 
           <div className="chat-compose">
@@ -253,7 +286,11 @@ function App() {
               onChange={(e) => setChatInput(e.target.value)}
               placeholder="Ask the agent to list HCPs, log a visit, edit a record, or suggest next action."
             />
-            <button type="button" className="primary" onClick={() => sendMessage(chatInput)}>
+            <button
+              type="button"
+              className="primary"
+              onClick={() => sendMessage(chatInput)}
+            >
               Send
             </button>
           </div>
@@ -288,7 +325,9 @@ function App() {
                 <div className="meta">
                   <span>{item.channel}</span>
                   <span>{item.sentiment}</span>
-                  <span>{item.products_discussed.join(", ") || "No products tagged"}</span>
+                  <span>
+                    {item.products_discussed.join(", ") || "No products tagged"}
+                  </span>
                 </div>
                 <strong>Next action:</strong>
                 <p>{item.next_action || "No next action recorded."}</p>
